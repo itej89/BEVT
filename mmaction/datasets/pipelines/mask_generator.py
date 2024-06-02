@@ -61,7 +61,7 @@ class MaskingGenerator:
         return delta
 
     def __call__(self):
-        mask = np.zeros(shape=self.get_shape(), dtype=np.int)
+        mask = np.zeros(shape=self.get_shape(), dtype=np.int64)
         mask_count = 0
         while mask_count < self.num_masking_patches:
             max_mask_patches = self.num_masking_patches - mask_count
@@ -104,7 +104,7 @@ class MaskedPositionGenerate:
             results['imgs'] = np.array(results['imgs'])
         mask_num = results['imgs'].shape[0]
         clip_len = results['clip_len'] // self.temporal_scale
-        masked_tube = np.zeros((mask_num, clip_len, self.height, self.width), dtype=np.int)
+        masked_tube = np.zeros((mask_num, clip_len, self.height, self.width), dtype=np.int64)
         min_masked_tube_len, max_masked_tube_len = self.masked_tube_range
         min_masked_tube_len = max(int(min_masked_tube_len * clip_len), 1)
         max_masked_tube_len = min(int(max_masked_tube_len * clip_len), clip_len)
@@ -152,7 +152,7 @@ class Masked2DPositionGenerate:
         if not isinstance(results['imgs'], np.ndarray):
             results['imgs'] = np.array(results['imgs'])
         mask_num = results['imgs'].shape[0]
-        masked_tube = np.zeros((mask_num, self.height, self.width), dtype=np.int)
+        masked_tube = np.zeros((mask_num, self.height, self.width), dtype=np.int64)
         for i in range(mask_num):
             masked_tube[i] = self.masked_position_generator()
 
